@@ -1,0 +1,30 @@
+{
+  "name": "nastya-mes",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22 <26",
+    "npm": ">=10"
+  },
+  "workspaces": [
+    "apps/bot",
+    "apps/mini-app",
+    "apps/user-client"
+  ],
+  "scripts": {
+    "auth": "npm run auth -w @nastya-mes/user-client",
+    "dev": "npm run dev -w @nastya-mes/user-client",
+    "dev:bot": "npm run dev -w @nastya-mes/bot",
+    "dev:mini": "npm run dev -w @nastya-mes/mini-app",
+    "dev:user": "npm run dev -w @nastya-mes/user-client",
+    "start:bot": "npm run start -w @nastya-mes/bot",
+    "start:user": "npm run start -w @nastya-mes/user-client",
+    "build:bot": "npm run build -w @nastya-mes/bot",
+    "build:mini": "npm run build -w @nastya-mes/mini-app",
+    "build:user": "npm run build -w @nastya-mes/user-client",
+    "check:env": "node scripts/check-env.mjs",
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces"
+  }
+}
