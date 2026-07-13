@@ -1,5 +1,6 @@
 import { TelegramClient } from "telegram";
 import { Api } from "telegram/tl/index.js";
+import bigInt from "big-integer";
 
 type DialogFilter = Api.DialogFilter;
 
@@ -108,7 +109,7 @@ export class FolderManager {
     try {
       return await this.client.getInputEntity(peerId);
     } catch {
-      return new Api.InputPeerUser({ userId: BigInt(peerId), accessHash: BigInt(0) });
+      return new Api.InputPeerUser({ userId: bigInt(peerId), accessHash: bigInt(0) });
     }
   }
 
