@@ -35,7 +35,7 @@ import { telegramApp } from "./lib/telegram.js";
 import { normalizeVipInput } from "./lib/vip.js";
 
 type View = "contacts" | "chat";
-type ChatTab = "all" | "favorites" | "media";
+type ChatTab = "chats" | "groups" | "favorites" | "media";
 
 const MESSAGE_LIMITS = [10, 15, 20, 25, 30];
 const AUTOREPLY_MODES = [
@@ -54,7 +54,7 @@ const DEFAULT_SETTINGS: FullSettings = {
 
 export function App() {
   const [view, setView] = useState<View>("contacts");
-  const [activeTab, setActiveTab] = useState<ChatTab>("all");
+  const [activeTab, setActiveTab] = useState<ChatTab>("chats");
   const [search, setSearch] = useState("");
   const [chats, setChats] = useState<ChatSummary[]>([]);
   const [activeChat, setActiveChat] = useState<ChatSummary | null>(null);
@@ -285,6 +285,14 @@ export function App() {
   const activeTitle = activeChat?.display_name ?? "Чат";
   const filteredChats = useMemo(() => {
     const filtered = chats.filter((chat) => {
+      if (activeTab === "chats") {
+        return chat.user_id > 0;
+      }
+
+      if (activeTab === "groups") {
+        return chat.user_id < 0;
+      }
+
       if (activeTab === "favorites") {
         return chat.is_vip;
       }
@@ -325,11 +333,18 @@ export function App() {
 
           <div className="chat-tabs" aria-label="Фильтры">
             <button
-              className={activeTab === "all" ? "is-active" : ""}
+              className={activeTab === "chats" ? "is-active" : ""}
               type="button"
-              onClick={() => setActiveTab("all")}
+              onClick={() => setActiveTab("chats")}
             >
-              Все
+              Чаты
+            </button>
+            <button
+              className={activeTab === "groups" ? "is-active" : ""}
+              type="button"
+              onClick={() => setActiveTab("groups")}
+            >
+              Группы
             </button>
             <button
               className={activeTab === "favorites" ? "is-active" : ""}

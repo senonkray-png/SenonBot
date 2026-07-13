@@ -116,8 +116,8 @@ async function handleIncoming(
     ]
   );
 
-  // Move to "Без Ответа" folder
-  if (foldersRef) {
+  // Move to "Без Ответа" folder (only for personal chats, not groups/channels)
+  if (foldersRef && peerId > 0) {
     try {
       await foldersRef.moveToUnanswered(peerId);
     } catch (error) {
