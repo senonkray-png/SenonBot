@@ -5,7 +5,8 @@ import { getPeerProfile, getPeerStorageId } from "./peer.js";
 import { applyRetentionBeforeInsert } from "./retention.js";
 import { uploadMessageMedia, type StoredMedia } from "./storage.js";
 import { db } from "./db.js";
-import type { FolderManager } from "./folders.js";
+import { FolderManager } from "./folders.js";
+import { processUserClientMessageForwarding } from "./forwarder.js";
 import {
   cancelAutoreply,
   isAiEnabled,
@@ -31,6 +32,13 @@ export async function handleNewMessage(
 ): Promise<void> {
   const message = event.message;
   const peerId = getPeerStorageId(message.peerId);
+
+  // Auto-forward/copy check for topic rules
+  try {
+    await processUserClientMessageForwarding(client, message, peerId);
+  } catch (error) {
+    console.warn("Failed to process user-client message forwarding:", error);
+  }
 
   if (peerId === listenerConfig.DUMP_CHANNEL_ID) {
     return;

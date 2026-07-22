@@ -11,7 +11,7 @@ bot.command("start", async (ctx) => {
   await ctx.reply(`Bot is connected. Current message limit: ${messageLimit}`);
 });
 
-bot.on("message", handleIncomingMessage);
+bot.on(["message", "channel_post"], handleIncomingMessage);
 
 bot.catch((error) => {
   console.error("Bot error:", error);

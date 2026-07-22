@@ -25,7 +25,11 @@ const listenerSchema = z.object({
   OPENAI_MODEL: z.string().default("gpt-4o-mini"),
   // Telegram folders
   UNANSWERED_FOLDER: z.string().default("Без Ответа"),
-  AUTOREPLIED_FOLDER: z.string().default("Ав-Ответ")
+  AUTOREPLIED_FOLDER: z.string().default("Ав-Ответ"),
+  // Forwarder
+  FORWARD_SOURCE_CHAT_ID: z.coerce.number().optional().default(-1002449275408),
+  FORWARD_SOURCE_TOPIC_ID: z.coerce.number().optional().default(1423),
+  FORWARD_TARGET_CHAT_ID: z.coerce.number().optional().default(-5175839553)
 });
 
 export type ListenerConfig = z.infer<typeof listenerSchema>;

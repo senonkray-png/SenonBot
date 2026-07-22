@@ -2,6 +2,7 @@ import type { Context } from "grammy";
 import type { UserFromGetMe } from "grammy/types";
 import { config } from "./config.js";
 import { db, getMessageLimit } from "./db.js";
+import { processBotMessageForwarding } from "./forwarder.js";
 
 type TelegramMessage = NonNullable<Context["message"]>;
 
@@ -25,6 +26,13 @@ const MEDIA_FIELDS = [
 ] as const;
 
 export async function handleIncomingMessage(ctx: Context): Promise<void> {
+  // Check auto-forwarding/copy rules for topics/groups
+  try {
+    await processBotMessageForwarding(ctx);
+  } catch (error) {
+    console.warn("Failed to process bot message forwarding:", error);
+  }
+
   const message = ctx.message;
 
   if (!message?.from) {

@@ -32,7 +32,10 @@ const envSchema = z.object({
   OPENROUTER_API_KEY: z.string().optional(),
   OPENROUTER_MODEL: z.string().default("google/gemini-2.5-pro"),
   OPENAI_API_KEY: z.string().optional(),
-  OPENAI_MODEL: z.string().default("gpt-4o-mini")
+  OPENAI_MODEL: z.string().default("gpt-4o-mini"),
+  FORWARD_SOURCE_CHAT_ID: z.coerce.number().optional().default(-1002449275408),
+  FORWARD_SOURCE_TOPIC_ID: z.coerce.number().optional().default(1423),
+  FORWARD_TARGET_CHAT_ID: z.coerce.number().optional().default(-5175839553)
 });
 
 export const config = envSchema.parse(rawEnv);
